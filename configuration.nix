@@ -13,6 +13,15 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+
+  ];
+  
+  hardware.opentabletdriver.enable = true;  
+  hardware.opentabletdriver.daemon.enable = true;
+  virtualisation.docker.enable = true;
+
   networking.hostName = "nixos";
 
   services.xserver.enable = true;
@@ -61,7 +70,7 @@
   users.users.felipog = {
     isNormalUser = true;
     description = "Felipog";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird
@@ -78,6 +87,7 @@
   discord
   #Programming Tools
   jetbrains.idea-ultimate
+  jetbrains.phpstorm
   neofetch
   waybar
   chafa
@@ -87,6 +97,12 @@
   steam
   auto-cpufreq
   cpufrequtils
+  prismlauncher
+  code-cursor
+  osu-lazer
+  opentabletdriver
+  icu
+  appimage-run
 ];
 
   services.auto-cpufreq.enable = true;
@@ -104,7 +120,7 @@
   authentication = pkgs.lib.mkOverride 10 ''
   #type databae Dbuser auth method
   local all all trust
-  host all postgres 127.0.0/32 md5
+  host all postgres 127.0.0.1/32 md5
   '';
   };
 
